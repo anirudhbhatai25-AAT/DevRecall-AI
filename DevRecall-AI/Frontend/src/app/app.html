@@ -1,0 +1,47 @@
+<div style="max-width: 900px; margin: 40px auto; font-family: system-ui, sans-serif; padding: 20px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+  <h2 style="color: #1a73e8; margin-bottom: 5px;">DevRecall AI</h2>
+  <p style="color: #666; margin-bottom: 25px;">Intelligent Engineering Error Analysis & Hindsight Memory</p>
+
+  <!-- Input Area -->
+  <div style="margin-bottom: 20px;">
+    <label style="font-weight: bold; display: block; margin-bottom: 6px;">Paste Stack Trace / Error Logs:</label>
+    <textarea [(ngModel)]="stackTrace" rows="6" placeholder="Paste Java exception or error log here..." style="width: 100%; padding: 12px; font-family: monospace; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;"></textarea>
+    
+    <button (click)="onAnalyze()" [disabled]="loading" style="margin-top: 12px; padding: 12px 24px; background: #1a73e8; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+      {{ loading ? 'Recalling & Analyzing...' : 'Analyze Issue with AI' }}
+    </button>
+  </div>
+
+  <!-- AI Analysis & Memory Display -->
+  <div *ngIf="aiAnalysis" style="background: #f8f9fa; padding: 20px; border-radius: 6px; border-left: 5px solid #1a73e8; margin-top: 25px;">
+    
+    <!-- Badges for Clear Demo Distinction -->
+    <div *ngIf="hasMemory" style="background: #e6f4ea; color: #137333; padding: 10px 14px; border-radius: 6px; font-weight: bold; margin-bottom: 15px; display: inline-block;">
+      ⚡ Found Verified Past Team Memory!
+    </div>
+
+    <div *ngIf="!hasMemory" style="background: #fff3cd; color: #856404; padding: 10px 14px; border-radius: 6px; font-weight: bold; margin-bottom: 15px; display: inline-block;">
+      ⚠️ No Prior Team Memory Found — Standard AI Analysis
+    </div>
+    
+    <h3 style="margin-top: 0;">AI Resolution & Recommendations:</h3>
+    <pre style="white-space: pre-wrap; font-family: inherit; line-height: 1.5; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0;">{{ aiAnalysis }}</pre>
+
+    <!-- Save to Hindsight Memory -->
+    <div style="border-top: 2px dashed #ddd; margin-top: 25px; padding-top: 20px;">
+      <h4 style="margin-bottom: 10px; color: #202124;">Save Verified Fix to Hindsight Vector Memory</h4>
+      
+      <label style="font-size: 14px; font-weight: 500;">Root Cause:</label>
+      <input [(ngModel)]="rootCause" placeholder="e.g. Missing null check on UserService" style="width: 100%; padding: 8px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+
+      <label style="font-size: 14px; font-weight: 500;">Verified Solution Applied:</label>
+      <textarea [(ngModel)]="verifiedFix" rows="3" placeholder="e.g. Wrapped user lookup inside Optional.ofNullable()" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"></textarea>
+
+      <button (click)="onSubmitFix()" style="margin-top: 12px; padding: 10px 20px; background: #34a853; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+        Retain in Team Memory
+      </button>
+
+      <p *ngIf="retainedStatus" style="color: #34a853; font-weight: bold; margin-top: 10px;">✔️ Fix successfully retained in Hindsight memory!</p>
+    </div>
+  </div>
+</div>
